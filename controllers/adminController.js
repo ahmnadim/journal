@@ -69,15 +69,18 @@ const updatPost = (req, res) => {
 	const author = req.body.author;
 	
 
-	if (file){
-		const image = file.path;
-		Post.update({ title, description, author }, { where: { id: req.body.id } })
+	if (file != 'undefined' || file != ''){
+		console.log('with file.', file);
+		const imageUrl = file.path;
+		Post.update({ title, imageUrl, description, author }, { where: { id: req.body.id } })
 			.then(() => {
 				req.flash('success_msg', 'Post updated successfully.');
 				res.redirect('/admin/posts')
 			})
 			.catch(err => console.log(err));
 	}else{
+		console.log('without file.');
+
 		Post.update({ title, description, author }, { where: { id: req.body.id } })
 			.then(() => {
 				req.flash('success_msg', 'Post updated successfully.');
@@ -85,13 +88,6 @@ const updatPost = (req, res) => {
 			})
 			.catch(err => console.log(err));
 	}
-
-	Post.update({title, description, author}, {where:{id:req.body.id}})
-	.then(() => {
-		req.flash('success_msg', 'Post updated successfully.');
-		res.redirect('/admin/posts')
-	})
-	.catch(err => console.log(err));
 
 }
 

@@ -10,7 +10,7 @@
 					</div>
 					<div class="card-body">
 						<%- include('../../fpartials/message'); %>
-						<form action="/admin/update-post" method="POST">
+						<form action="/admin/update-post" method="POST" enctype="multipart/form-data">
 							<input type="hidden" name="_method" value="put">
 							<input type="hidden" name="id" value="<%= post.id%>">
 							<div class="form-group">
