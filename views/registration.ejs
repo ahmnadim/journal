@@ -1,0 +1,43 @@
+<%- include('fpartials/header');%>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+     <form action="/register" method="post">
+        <fieldset>
+          <h1>Registration</h1>
+          <%- include('fpartials/message'); %>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter name" value="<%= name %>">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" name="email" class="form-control" placeholder="Enter email" value="<%= email %>">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control" placeholder="Enter Confirm password">
+          </div>
+         
+          
+          
+          </fieldset>
+         
+          <fieldset class="form-group">
+            
+          </fieldset>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="reset" class="btn btn-danger">Reset</button>
+        </fieldset>
+      </form>
+  </div>
+  </div>
+</div>
+
+<%- include('fpartials/footer'); %>

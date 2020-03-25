@@ -1,0 +1,38 @@
+<%- include('../partials/header'); -%>
+
+<div class="content-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <%- include('../../fpartials/message'); %>
+                    <div class="card-header card-header-border-bottom">
+                        <h2>Edit tag</h2>
+                    </div>
+                    <div class="card-body">
+                        <%- include('../../fpartials/message'); %>
+                        <form action="/admin/update-tag" method="POST">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Title</label>
+                                <input name="name" class="form-control" value="<%= tag.name %>" type="text" placeholder="Enter tag title">
+                                <input type="hidden" value="<%= tag.id %>" name="id">
+                            </div>
+                            <div class="form-footer pt-4 pt-5 mt-4 border-top">
+                                <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+                                <input class="btn btn-danger" type="reset" name="reset" value="Reset">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <%- include('../partials/footer'); -%>
