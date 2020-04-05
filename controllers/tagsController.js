@@ -51,7 +51,7 @@ module.exports = {
 
     deleteTag: (req, res) => {
      
-        Tag.destroy({where: {id: req.params.id}})
+        Tag.destroy({where: {id: req.body.id}})
         .then(tag => {
             req.flash('success_msg', 'Tag deleted Successfully.');
             return res.redirect('/admin/tags');

@@ -9,7 +9,7 @@ module.exports = {
         backURL = req.header('Referer') || '/';
 
         const errors = validationResult(req)
-        if (errors.isEmpty()) {
+        if (errors.isEmpty()) 	{
             return next()
         }
         

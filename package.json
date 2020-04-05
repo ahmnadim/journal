@@ -27,6 +27,7 @@
     "passport-local": "^1.0.0",
     "pg": "^7.18.2",
     "sequelize": "^5.21.5",
+    "sweetalert2": "^9.10.9",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
