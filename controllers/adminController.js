@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Post = require('../models/Post');
 const User = require('../models/User');
 
@@ -68,32 +69,43 @@ const updatPost = (req, res) => {
 	const description = req.body.description;
 	const author = req.body.author;
 	
-
-	if (file != 'undefined' || file != ''){
-		console.log('with file.', file);
+	if (typeof file != 'undefined'){
 		const imageUrl = file.path;
-		Post.update({ title, imageUrl, description, author }, { where: { id: req.body.id } })
-			.then(() => {
-				req.flash('success_msg', 'Post updated successfully.');
-				res.redirect('/admin/posts')
-			})
-			.catch(err => console.log(err));
+		Post.findByPk(req.body.id)
+			.then(old => {
+				const oldImageUrl = old.imageUrl;
+				fs.unlinkSync(oldImageUrl, function (err) {
+					if (err) throw err;
+					console.log('File deleted!');
+				});
+				old.update({title, imageUrl, description, author})
+				.then(() => {
+					req.flash('success_msg', 'Post updated successfully.');
+					res.redirect('/admin/posts')
+				})
+				.catch(err => console.log(err));
+			});
 	}else{
-		console.log('without file.');
-
 		Post.update({ title, description, author }, { where: { id: req.body.id } })
-			.then(() => {
-				req.flash('success_msg', 'Post updated successfully.');
-				res.redirect('/admin/posts')
-			})
-			.catch(err => console.log(err));
+		.then(() => {
+			req.flash('success_msg', 'Post updated successfully.');
+			res.redirect('/admin/posts')
+		})
+		.catch(err => console.log(err));
 	}
 
 }
 
 const deletePost = (req, res) => {
-	Post.destroy({where:{id:req.body.id, userId: req.session.user.id}})
-	.then(() => {
+	console.log('delete');
+	Post.findOne({where: {id: req.body.id, userId: req.session.user.id}})
+	.then(post => {
+		if(post.imageUrl){
+			fs.unlinkSync(post.imageUrl, (err) => {
+				if(err) throw err;
+			});
+		}
+		post.destroy();
 		req.flash('success_msg', 'Post deleted successfully.');
 		res.redirect('/admin/posts');
 	})

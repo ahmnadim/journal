@@ -34,10 +34,10 @@
 										<a class="btn-sm btn-primary" href="/admin/edit-post/<%= post.id %>" >Edit</a>
 										
 										
-										<form action="/admin/delete-post" method="post" class="float-left" id="deleteForm" >
+										<form action="/admin/delete-post" method="post" class="float-left" id="deleteForm-<%= post.id %>" >
 											<input type="hidden" name="id" value="<%=post.id%>">
 										</form>
-											<a id="delete" href="#" value="delete" class="btn-sm btn-danger" onclick="submitDeleteForm()">Delete</a>
+											<a id="delete" href="#" value="delete" class="btn-sm btn-danger" onclick="submitDeleteForm(<%= post.id %>)">Delete</a>
 										
 									</td>								
 								</tr>	
@@ -77,8 +77,26 @@
 <%- include('../partials/footer'); -%>
 
 <script>
-	function submitDeleteForm(){			
-		document.getElementById('deleteForm').submit();
-	}
+    function submitDeleteForm(id) {
+
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.value) {
+            document.getElementById('deleteForm-'+id).submit();
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+        }
+        })
+    }
 
 </script>

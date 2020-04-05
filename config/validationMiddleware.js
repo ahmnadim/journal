@@ -8,7 +8,7 @@ module.exports = {
     validate: (req, res, next) => {
         backURL = req.header('Referer') || '/';
 
-        const errors = validationResult(req)
+        var errors = validationResult(req)
         if (errors.isEmpty()) 	{
             return next()
         }

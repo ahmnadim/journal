@@ -1,25 +1,44 @@
-<% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Error!</strong> <%= error.msg %>  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<% }) %> <% } %>
 
 <% if (error_msg != '') { %> 
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Error!</strong> <%= error_msg %> <button type="button" class="close" data-dismiss="alert"
-        aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+        let err_msg = "<%= error_msg %>"
+            toastr.options.timeOut = 1500;
+            
+            toastr.error(err_msg);
+        });
+    </script>
+
  <% } %>
  
 
 <% if (success_msg != '') { %> 
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= success_msg %>  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+        let scs = "<%= success_msg %>"
+            toastr.options.timeOut = 1500;
+            
+            toastr.success(scs);
+        });
+    </script>
+
  <% } %>
+
+ 
+
+ <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => {  %>
+ 
+  
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+    let err = "<%= error.msg %>"
+        toastr.options.timeOut = 1500;
+        
+        toastr.error(err);
+    });
+  </script>
+  
+  <% }) %> <% } %>
