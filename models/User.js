@@ -1,35 +1,42 @@
-const Sequelize = require('sequelize');
-var bcrypt = require('bcrypt');
-const db = require('../config/db');
 
-const Post = require('./Post');
+module.exports = (db, Sequelize) => {
+	const User = db.define('user', {
+		id: {
+			type: Sequelize.INTEGER,
+			autoIncrement: true,
+			allowNull: false,
+			primaryKey: true
+		},
+		name: {
+			type: Sequelize.STRING,
+			allowNull: false
+		},
+		email: {
+			type: Sequelize.STRING,
+			allowNull: false
+		},
+		password: {
+			type: Sequelize.STRING,
+			allowNull: false
+		},
+		isActive: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false
+		},
+		hashedToken: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
+		expire: {
+			type: Sequelize.DATE,
+			allowNull: true
+		}
+		
+	});
 
-const User = db.define('user', {
-	id: {
-		type: Sequelize.INTEGER,
-		autoIncrement: true,
-		notNull: true,
-		primaryKey: true
-	},
-	name: {
-		type: Sequelize.STRING,
-		notNull: true
-	},
-	email: {
-		type: Sequelize.STRING,
-		notNull: true
-	},
-	password: {
-		type: Sequelize.STRING,
-		notNull: true
-	}
-	
-});
+	User.associate = models => {
+		User.hasMany(models.Post);
+	};
 
-// User.hasMany(Post, { foreignKey: 'userId' });
-// User.associate = models => {
-// 	User.hasMany(Post, { foreignKey: 'userId' });
-// }
-
-module.exports = User;
-
+	return User;
+}

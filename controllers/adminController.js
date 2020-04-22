@@ -1,12 +1,12 @@
 const fs = require('fs');
-const Post = require('../models/Post');
-const User = require('../models/User');
+const Post = require('../config/db').Post;
+const User = require('../config/db').User;
 
 const dashboard = (req, res, next) => {
 	res.render('admin/dashboard', {
 		path:'/admin/dashboard'
 	}); 
-}
+} 
 
 const posts = (req, res) => {
 	Post.findAll({where: {userId: req.session.user.id}}).then(posts => {
@@ -47,7 +47,7 @@ const storePost = (req, res) => {
 	
 }
 
-const editPost = (req, res) => {
+const editPost = (req, res) => {	
 	Post.findOne( {where: {id: req.params.id, userId: req.session.user.id}} )
 	.then(data => {
 			if(!data){
@@ -97,7 +97,6 @@ const updatPost = (req, res) => {
 }
 
 const deletePost = (req, res) => {
-	console.log('delete');
 	Post.findOne({where: {id: req.body.id, userId: req.session.user.id}})
 	.then(post => {
 		if(post.imageUrl){
@@ -105,6 +104,7 @@ const deletePost = (req, res) => {
 				if(err) throw err;
 			});
 		}
+
 		post.destroy();
 		req.flash('success_msg', 'Post deleted successfully.');
 		res.redirect('/admin/posts');

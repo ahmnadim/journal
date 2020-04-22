@@ -1,4 +1,7 @@
 const Sequelize = require('sequelize');
+const UserModel = require('../models/User');
+const PostModel = require('../models/Post');
+
 
 const sequelize = new Sequelize('blog', 'root', '', {
 	host: 'localhost',
@@ -11,4 +14,12 @@ const sequelize = new Sequelize('blog', 'root', '', {
 	}
 });
 
-module.exports = sequelize;
+const User = UserModel(sequelize, Sequelize);
+const Post = PostModel(sequelize, Sequelize);
+
+let models = {User, Post}
+
+User.associate(models);
+Post.associate(models);
+
+module.exports = {sequelize, User, Post};

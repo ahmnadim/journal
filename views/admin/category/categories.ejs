@@ -1,0 +1,104 @@
+<%- include('../partials/header'); -%>
+<div class="content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper">
+            <h1>All Categories</h1>
+            <a href="/admin/add-category" class="btn btn-primary">Add Category</a>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <%- include('../../fpartials/message'); %>
+                        <div class="hoverable-data-table">
+                            <div class="dataTables_wrapper dt-bootstrap4 no-footer" id="hoverable-data-table_wrapper">
+                                <table class="table table-hover nowrap dataTable no-footer" id="hoverable-data-table"
+                                    role="grid" aria-describedby="hoverable-data-table_info" style="width: 100%;">
+                                    <thead>
+                                        <th>Sl no.</th>
+                                        <th>Title</th>
+                                    </thead>
+
+                                    <tbody>
+                                        <% if(all_categories.length > 0){ %>
+                                        <% all_categories.forEach(Category => { %>
+
+                                        <tr class="odd" role="row">
+                                            <td><%= category.id %></td>
+                                            <td><%= category.name %></td>
+                                            <td>
+
+                                                <a class="btn-sm btn-primary"
+                                                    href="/admin/edit-category/<%= category.id %>">Edit</a>
+
+
+                                                <form action="/admin/delete-category/" method="post" class="float-left" id="deleteForm-<%= category.id %>">
+                                                    <input type="hidden" name="id" value="<%= category.id %>">
+                                                </form>
+                                                <a id="delete" href="#" value="delete" class="btn-sm btn-danger"
+                                                    onclick="submitDeleteForm(<%= category.id %>)">Delete</a>
+
+                                            </td>
+                                        </tr>
+                                        <%	}) %>
+                                        <%	} %>
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-between bottom-information">
+                                    <div class="dataTables_info" id="hoverable-data-table_info">Showing 1 to 20 of 57
+                                        entries</div>
+                                    <div class="dataTables_paginate paging_simple_numbers"
+                                        id="hoverable-data-table_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled"
+                                                id="hoverable-data-table_previous">
+                                                <a class="page-link" href="#">Previous</a>
+                                            </li>
+                                            <li class="paginate_button page-item active">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="paginate_button page-item next" id="hoverable-data-table_next">
+                                                <a class="page-link">Next</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<%- include('../partials/footer'); -%>
+
+<script>
+    function submitDeleteForm(id) {
+
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.value) {
+            document.getElementById('deleteForm-'+id).submit();
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+        }
+        })
+    }
+
+</script>

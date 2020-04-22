@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../Controllers/adminController');
 const tagsController = require('../Controllers/tagsController');
+const categoryController = require('../controllers/categoryController');
 const auth = require('../config/auth');
 const validate = require('../config/validationMiddleware');
 
@@ -26,4 +27,7 @@ router.post('/update-tag', auth.checkSession, validate.validateTag(), validate.v
 
 router.post('/delete-tag', auth.checkSession, tagsController.deleteTag);
 
+//category routes
+router.get('/categories', auth.checkSession, categoryController.categories);
+router.get('/add-category', auth.checkSession, categoryController.addCategory);
 module.exports = router;

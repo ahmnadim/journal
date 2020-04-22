@@ -1,7 +1,7 @@
 //importing dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./config/db');
+const db = require('./config/db').sequelize;
 const path = require('path');
 const passport = require('passport');
 const validator = require('express-validator');
@@ -11,14 +11,6 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const toastr = require('express-toastr');
-
-//importing models
-const User = require('./models/User');
-const Post = require('./models/Post');
-const Tag = require('./models/Tag');
-const Category = require('./models/Category');
-const CategoryPost = require('./models/CategoryPost');
-const PostTag = require('./models/PostTag');
 
 const app = express();
 
@@ -83,17 +75,9 @@ app.use('/admin', require('./routes/admin'));
 //serve static files
 app.use(express.static(__dirname+ '/public'));
 
-//creating relations 
-User.hasMany(Post, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Tag);
-User.hasMany(Category);
-Post.belongsToMany(Category, {through: CategoryPost});
-Post.belongsToMany(Tag, { through: PostTag });
-
 //syncing db
 db.sync()
 .then(restult => {
-	// console.log(restult)
 	app.listen(3000, console.log('server running.'));
 })
 .catch(err => console.log(err));

@@ -1,7 +1,7 @@
 const {body, check, validationResult } = require('express-validator');
 
 // Models
-const User = require('../models/User');
+const User = require('../config/db').User;
 
 
 module.exports = {
@@ -14,6 +14,7 @@ module.exports = {
         }
         
         req.flash('errors', errors.array());
+        console.log(errors);
         return res.redirect(backURL);
     },
 
