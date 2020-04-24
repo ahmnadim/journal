@@ -7,7 +7,7 @@ const auth = require('../config/auth');
 const validate = require('../config/validationMiddleware');
 
 
-router.get('/dashboard', auth.checkSession, adminController.dashboard);
+router.get('/dashboard', auth.ensureAuthenticated, adminController.dashboard);
 //posts routes
 router.get('/posts', auth.checkSession, adminController.posts);
 router.get('/add-post', auth.checkSession, adminController.addPost);

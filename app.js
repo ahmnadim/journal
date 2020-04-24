@@ -14,15 +14,26 @@ const toastr = require('express-toastr');
 
 const app = express();
 
+// Init bodyParser 
+app.use(express.urlencoded({ extended: true }));
+
+// Passport Config
 require('./config/passport')(passport);
 
 // Init Toastr
 app.use(cookieParser('secret'));
-app.use(session({
-  	secret: 'secret', 
-  	saveUninitialized: true,
-  	resave: true
-}));
+app.use(
+	session({
+	  secret: 'secret',
+	  resave: true,
+	  saveUninitialized: true
+	})
+  );
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 app.use(toastr());
 
@@ -34,9 +45,6 @@ app.use(function (req, res, next) {
 	next();
 })
 
-// Init Passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 //configuring multer storage for images
 const fileStorage = multer.diskStorage({
@@ -61,8 +69,7 @@ const fileFilter = (req, file, cb) => {
 	}
 };
 
-// Init bodyParser
-app.use(bodyParser.urlencoded({ extended: false }))
+
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 
 // Set View Engine
