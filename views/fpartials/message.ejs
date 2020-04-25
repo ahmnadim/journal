@@ -11,6 +11,21 @@
     </script>
 
  <% } %>
+
+ <% if (messages != '') { %> 
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+        let err_msg = "<%= messages %>"
+            toastr.options.timeOut = 1500;
+            
+            toastr.error(err_msg);
+        });
+    </script>
+
+ <% } %>
+
+
  
 
 <% if (success_msg != '') { %> 

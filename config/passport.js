@@ -9,37 +9,28 @@ module.exports = function(passport) {
     new LocalStrategy({usernameField: 'email',	passwordField: 'password' }, (username, password, done) => {
       // Match user
       User.findOne({where: {email: username}}).then(user => {
-		console.log(user.name);
         if (!user) {
-			console.log('!user');
           return done(null, false, { message: 'That email is not registered' });
         }
 
 		// Match password
-		console.log(user.password, password);
 		const isMatched = bcrypt.compareSync(password, user.password);
 		
           if (isMatched) {
-			  console.log('password matched.');
             return done(null, user);
-          } else { console.log('password not matched.');
-            return done(null, false, { error_msg: 'Password incorrect' });
+          } else {
+            return done(null, false, { message: 'Password incorrect' });
           }	
       });
     })
   );
 
   passport.serializeUser(function(user, done) {
-	  console.log('serialized: ', user.email);
     return done(null, user.id);
   });
 
-  passport.deserializeUser(function(id, done) {
-    User.findByPk(id, function(err, user) {
-		console.log('deserialized');
-
+  passport.deserializeUser(function(user, done) {
       return done(null, user);
-    });
-  });
+  }); 
 
 };

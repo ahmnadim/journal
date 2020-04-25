@@ -63,6 +63,7 @@ const register = (req, res) => {
 
 const loginForm = (req, res) => {
 	if (req.session.user) {
+		console.log(req.flash('error'));
 		res.redirect('/admin/dashboard');
 	}
 	

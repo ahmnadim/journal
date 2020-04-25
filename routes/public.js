@@ -17,7 +17,7 @@ router.post('/register', validate.validateRegistration(),validate.validate, publ
 
 router.get('/login', auth.forwardAuthenticated, publicController.loginForm);
 // router.post('/login', validate.validateLogin(),validate.validate, publicController.login);
-router.post('/login', (req, res, next) => { console.log('post login.');
+router.post('/login', validate.validateLogin(),validate.validate, (req, res, next) => {
     passport.authenticate('local', {
       successRedirect: '/admin/dashboard',
       failureRedirect: '/login',
